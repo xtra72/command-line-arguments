@@ -1,0 +1,78 @@
+== Quiz-01. Java compiler 명령어를 명령줄 인수 옵션을 분석하라.
+
+{empty} +
+
+=== 요구 사항
+
+1. 리눅스의 명령어들을 보면 명령줄에 다양한 옵션을 줄 수 있다.  간단한 예로 자바 컴파일러 명령을 보자.
++
+[source,console]
+----
+~$ javac --help
+Usage: javac <options> <source files>
+where possible options include:
+  @<filename>                  Read options and filenames from file
+  -Akey[=value]                Options to pass to annotation processors
+  --add-modules <module>(,<module>)*
+        Root modules to resolve in addition to the initial modules, or all modules
+        on the module path if <module> is ALL-MODULE-PATH.
+  --boot-class-path <path>, -bootclasspath <path>
+        Override location of bootstrap class files
+  --class-path <path>, -classpath <path>, -cp <path>
+        Specify where to find user class files and annotation processors
+  -d <directory>               Specify where to place generated class files
+  -deprecation
+        Output source locations where deprecated APIs are used
+  --enable-preview
+        Enable preview language features. To be used in conjunction with either -source or --release.
+  -encoding <encoding>         Specify character encoding used by source files
+  -endorseddirs <dirs>         Override location of endorsed standards path
+  -extdirs <dirs>              Override location of installed extensions
+  -g                           Generate all debugging info
+  -g:{lines,vars,source}       Generate only some debugging info
+  -g:none                      Generate no debugging info
+  -h <directory>
+        Specify where to place generated native header files
+  --help, -help, -?            Print this help message
+  --help-extra, -X             Print help on extra options
+
+...
+----
++
+2. javac 명령어에 많은 옵션들이 추가 가능하고 옵션에 따라 추가적인 인수들이 요구될 수 있다.
+이러한 다양한 옵션들을 처리할 수 있도록 만들어 보자.  실행 명령은 아래와 같다.
++
+[source,console]
+----
+~$ java demo --class-path ./src/lib;./src/modules --module slf4j -g ./src/main/java/Main.java
+--class-path
+./src/lib;./src/module
+--module
+slf4j
+-g
+./src/main/java/Main.java
+----
++
+3. 동일한 옵션은 다양한 행태로 추가할 수 있다. 다음 옵션을 분석하여 긴 이름으로 표시하라. 추가로, 옵션 값이 둘 이상으로 묶여져 있는 경우 분리하여 표시하라.
++
+[source,console]
+----
+~$ java demo -classpath ./src/lib;./src/modules -m slf4j ./src/main/java/Main.java
+--class-path
+./src/lib
+./src/module
+--module
+slf4j
+./src/main/java/Main.java
+----
+4. 추가 옵션이 요구되는데, 누락될 경우 아래와 같이 에러 처리한다.
++
+[source,console]
+----
+~$ java demo -classpath ./src/lib;./src/modules --module slf4j -g
+<source files>이 누락되었습니다.
+----
+
+---
+
+link:../command_line_arguments.adoc[돌아가기]
